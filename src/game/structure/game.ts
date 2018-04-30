@@ -1,25 +1,36 @@
 import {State} from './state';
+import {Action} from './action';
 
 const FRAME_LENGTH_MS = 1000 / 20;
 
 class Game {
 
-  constructor(render_callback) {
+  state: State;
+  input_queue: Action[];
+  render: () => void;
+
+  last_time: number;
+  ticker: number;
+
+  constructor(render_callback: () => void) {
     this.state = new State();
     this.input_queue = [];
     this.render = render_callback;
+
+    this.last_time = 0;
+    this.ticker = 0;
   }
 
   // Initiates the game loop.
-  play = () => {
+  play = (): void => {
     const start_time = new Date().getTime();
     this.state.start(start_time);
     this.last_time = start_time;
-    this.ticker = setInterval(this.loop, FRAME_LENGTH_MS);
+    this.ticker = window.setInterval(this.loop, FRAME_LENGTH_MS);
   }
 
   // Should not be called directly. Call play() instead.
-  loop = () => {
+  loop = (): void => {
     let current_time = new Date().getTime();
     let time_elapsed_ms = current_time - this.last_time;
     this.last_time = current_time;
@@ -30,23 +41,23 @@ class Game {
   }
 
   // Stops the game, but does not clear the state.
-  pause = () => {
-    clearInterval(this.ticker);
+  pause = (): void => {
+    window.clearInterval(this.ticker);
   }
 
-  updateState = (time_elapsed_ms) => {
+  updateState = (time_elapsed_ms: number): void => {
     this.state.update(time_elapsed_ms); 
   }
 
-  queueInput = (action) => {
+  queueInput = (action: Action): void => {
     this.input_queue.push(action);
   }
 
-  clearInputQueue = () => {
+  clearInputQueue = (): void => {
     this.input_queue = [];
   }
 
-  processInput = () => {
+  processInput = (): void => {
     for (let a of this.input_queue) {
       this.state.processAction(a);        
     }

@@ -1,7 +1,7 @@
 import {Fire} from './fire';
-import {ActionType} from './action';
-import {MilestoneType} from './milestones';
+import {Action, SelectChoice, ActionType} from './action';
 
+import {Event} from './event';
 import {getAllEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
 
@@ -9,16 +9,26 @@ const DISPLAY_MESSAGE_DELAY_MS = 1000;
 
 class State {
 
+  start_time_ms: number;
+  action_history: Action[];
+
+  possible_events: Event[];
+  event_history: Event[];
+  active_event: Event | null;
+
+  display_message_queue: TimedQueue<string>;
+  display_message_history: string[];
+
+  fire: Fire;
+
   constructor() {
     this.possible_events = getAllEvents();
-    this.start_time_ms = null;
+    this.start_time_ms = 0;
 
     this.event_history = [];
     this.action_history = [];
-    this.resources = [];
-    this.milestones = new Set();
 
-    this.active_choice = null;
+    this.active_event = null;
 
     this.display_message_queue = new TimedQueue(
       DISPLAY_MESSAGE_DELAY_MS);
@@ -27,22 +37,22 @@ class State {
     this.fire = new Fire();
   }
 
-  start = (start_time_ms) => {
+  start = (start_time_ms: number): void => {
     this.start_time_ms = start_time_ms;
   }
 
-  timeElapsedSeconds = () => {
+  timeElapsedSeconds = (): number => {
     let rtn = (new Date().getTime() - this.start_time_ms) / 1000;
     return rtn;
   }
 
-  update = (time_elapsed_ms) => {
+  update = (time_elapsed_ms: number): void => {
     this.fire.update(time_elapsed_ms);
     this.checkEventTriggers();
     this.processDisplayMessages(time_elapsed_ms);
   }
 
-  processDisplayMessages = (time_elapsed_ms) => {
+  processDisplayMessages = (time_elapsed_ms: number): void => {
     this.display_message_queue.incrementTime(time_elapsed_ms);
     if (this.display_message_queue.readyToPop()) {
       this.display_message_history.push(
@@ -50,17 +60,17 @@ class State {
     }
   }
 
-  processAction = (action) => {
+  processAction = (action: Action): void => {
     if (action.type === ActionType.STOKE_FIRE) {
       this.fire.stoke();
     } else if (action.type === ActionType.SELECT_CHOICE) {
-      this.makeChoice(action.text);
+      this.makeChoice((action as SelectChoice).text);
     }
     this.action_history.push(action);
   }
 
-  checkEventTriggers = () => {
-    let events_run = [];
+  checkEventTriggers = (): void => {
+    let events_run: Event[] = [];
     for (let e of this.possible_events) {
       if (e.trigger(this)) {
         this.runEvent(e);
@@ -74,7 +84,7 @@ class State {
     }));
   }
 
-  runEvent = (event) => {
+  runEvent = (event: Event): void => {
     this.display_message_queue.push(...event.text)
 
     if (event.hasChoices()) {
@@ -86,15 +96,18 @@ class State {
     this.event_history.push(event);
   }
 
-  choiceRequired = (event) => {
+  choiceRequired = (event: Event): void => {
     this.active_event = event;
   }
 
-  isWaitingForChoice = () => {
+  isWaitingForChoice = (): boolean => {
     return !!this.active_event;
   }
 
-  makeChoice = (choice_text) => {
+  makeChoice = (choice_text: string): void => {
+    if (!this.active_event) {
+      return;
+    }
     for (let choice of this.active_event.choices) {
       if (choice.text === choice_text) {
         this.runEvent(choice.consequence);
@@ -103,16 +116,12 @@ class State {
     this.active_event = null;
   }
 
-  didReachMilestone = (milestone) => {
-    return this.milestones.has(milestone);
-  }
-
-  actionPerformed = (action_type) => {
+  actionPerformed = (action_type: ActionType): boolean => {
     let types = this.action_history.map((a) => a.type);
     return types.includes(action_type);
   }
 
-  getMessageHistory = () => {
+  getMessageHistory = (): string[] => {
     return this.display_message_history.slice();
   }
 

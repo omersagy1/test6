@@ -19,7 +19,11 @@
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "lib": [
+        "dom",
+        "es2017"
+    ]
   },
   "exclude": [
     "node_modules",

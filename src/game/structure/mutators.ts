@@ -1,3 +1,5 @@
+import {State} from './state';
+
 export type Mutator = (_:State) => void;
 
 export const dampenFire = (factor: number): Mutator => (state) => {
