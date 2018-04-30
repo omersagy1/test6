@@ -10,7 +10,7 @@ class Game {
   render: () => void;
 
   last_time: number;
-  ticker: number;
+  ticker_id: number;
 
   constructor(render_callback: () => void) {
     this.state = new State();
@@ -18,7 +18,7 @@ class Game {
     this.render = render_callback;
 
     this.last_time = 0;
-    this.ticker = 0;
+    this.ticker_id = 0;
   }
 
   // Initiates the game loop.
@@ -26,7 +26,7 @@ class Game {
     const start_time = new Date().getTime();
     this.state.start(start_time);
     this.last_time = start_time;
-    this.ticker = window.setInterval(this.loop, FRAME_LENGTH_MS);
+    this.ticker_id = window.setInterval(this.loop, FRAME_LENGTH_MS);
   }
 
   // Should not be called directly. Call play() instead.
@@ -42,7 +42,7 @@ class Game {
 
   // Stops the game, but does not clear the state.
   pause = (): void => {
-    window.clearInterval(this.ticker);
+    window.clearInterval(this.ticker_id);
   }
 
   updateState = (time_elapsed_ms: number): void => {
