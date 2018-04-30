@@ -1,7 +1,7 @@
 import React from 'react';
 
 import {Game} from './structure/game';
-import * as input from './structure/input';
+import * as action from './structure/action';
 
 import {Firebar, StokeButton} from './render/fire';
 import {EventDisplay} from './render/event_display';
@@ -47,10 +47,10 @@ class App extends React.Component {
             <Firebar 
               fire_model={s.fire} />
             <StokeButton 
-              action_callback={input.stokeCallback(this.game)} />
+              action_callback={action.stokeCallback(this.game)} />
           </div>
           <ChoiceButtonRow 
-            action_callback={input.selectChoiceCallback(this.game)}
+            action_callback={action.selectChoiceCallback(this.game)}
             active_event={s.active_event} />
         </div>
 

@@ -1,5 +1,5 @@
 import {Fire} from './fire';
-import {ActionType} from './input';
+import {ActionType} from './action';
 import {MilestoneType} from './milestones';
 
 import {getAllEvents} from './event_templates';
