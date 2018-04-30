@@ -1,6 +1,8 @@
 import * as t from './triggers';
 import * as mutators from './mutators';
+import {State} from './state';
 import {Event, Choice} from './event';
+
 
 // Events have:
 // - id
@@ -70,33 +72,50 @@ const EVENT_TEMPLATES = [
     text: 'The fire is roaring.'
   }
 
-]
+];
 
-const makeEvent = (template) => {
+
+interface EventTemplate {
+  id?: string;
+  trigger?: (_:State) => boolean;
+  text: string[] | string;
+  choices?: ChoiceTemplate[];
+  effect?: (_:State) => void;
+}
+
+
+interface ChoiceTemplate {
+  text: string;
+  consequence: EventTemplate;
+}
+
+
+const makeEvent = (template: EventTemplate): Event => {
   let choices;
-  if (template.choices !== undefined) {
+  if (!!template.choices) {
     choices = template.choices.map(makeChoice);
   }
 
-  return new Event(template.id,
+  return new Event(template.id || 'dummy-id',
                    toArray(template.text),
                    template.trigger,
                    choices);
 }
 
-const makeChoice = (template) => {
-  return new Choice(template.text,
-                    makeConsequence(template.consequence));
+const makeChoice = (template: ChoiceTemplate): Choice => {
+  return new Choice(template.text, makeConsequence(template.consequence));
 }
 
-const makeConsequence = (template) => {
+const makeConsequence = (template: EventTemplate): Event => {
   return new Event(
     'dummy-id', 
     toArray(template.text),
-    null, null, template.effect);
+    (_) => false,
+    [],
+    template.effect);
 }
 
-const toArray = (x) => {
+const toArray = (x:any) => {
   if (Array.isArray(x)) {
     return x;
   } else {

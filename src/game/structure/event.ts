@@ -2,16 +2,15 @@ import {State} from './state';
 
 class Event {
 
-  constructor(public id: number,
+  constructor(public id: string,
               public text: string[] = [],
-              public trigger?: (_:State) => boolean,
-              public choices?: Choice[],
+              public trigger: (_:State) => boolean = (_) => false,
+              public choices: Choice[] = [],
               public effect: (_:State) => void = (_) => {}) {
   }
 
   hasChoices = (): boolean => {
-    return (!!this.choices
-            && this.choices.length > 0);
+    return this.choices.length > 0;
   }
 
   getDisplayMessages = (): string[] => {

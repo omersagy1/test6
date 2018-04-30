@@ -5,11 +5,11 @@ const FIRE_DEPLETION_FRAC_PER_SECOND = .05;
 
 class Fire {
 
-  constructor() {
-    this.strength = MIN_FIRE_STRENGTH;
+  constructor(
+    public strength: number = MIN_FIRE_STRENGTH) {
   }
 
-  update = (time_elapsed_ms) => {
+  update = (time_elapsed_ms: number): void => {
     let depletion = (
       MAX_FIRE_STRENGTH
       * FIRE_DEPLETION_FRAC_PER_SECOND
@@ -21,11 +21,11 @@ class Fire {
     }
   }
 
-  stoke = () => {
+  stoke = (): void => {
     this.strength = MAX_FIRE_STRENGTH;
   }
 
-  dampen = (factor) => {
+  dampen = (factor: number): void => {
     this.strength = this.strength * factor
   }
 }
