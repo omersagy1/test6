@@ -115,7 +115,7 @@ const makeConsequence = (template: EventTemplate): Event => {
     template.effect);
 }
 
-const toArray = (x:any): any[] => {
+const toArray = <T>(x: T|T[]): T[] => {
   if (Array.isArray(x)) {
     return x;
   } else {
