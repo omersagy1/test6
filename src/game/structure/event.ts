@@ -7,7 +7,8 @@ class Event {
               public text: string[] = [],
               public trigger: (_:State) => boolean = (_) => false,
               public choices: Choice[] = [],
-              public effect: (_:State) => void = (_) => {}) {
+              public effect: (_:State) => void = (_) => {},
+              public recurring = false) {
 
     if (!id) {
       this.id = EventIdGen();

@@ -69,7 +69,8 @@ const EVENT_TEMPLATES = [
 
   {
     trigger: t.fireStoked,
-    text: 'The fire is roaring.'
+    text: 'The fire is roaring.',
+    recurring: true
   }
 
 ];
@@ -81,6 +82,7 @@ interface EventTemplate {
   text: string[] | string;
   choices?: ChoiceTemplate[];
   effect?: (_:State) => void;
+  recurring?: boolean;
 }
 
 
