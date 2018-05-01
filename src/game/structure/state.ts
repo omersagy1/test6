@@ -54,9 +54,9 @@ class State {
 
   processDisplayMessages = (time_elapsed_ms: number): void => {
     this.display_message_queue.incrementTime(time_elapsed_ms);
-    if (this.display_message_queue.readyToPop()) {
+    if (this.display_message_queue.readyToDequeue()) {
       this.display_message_history.push(
-        this.display_message_queue.pop());
+        this.display_message_queue.dequeue());
     }
   }
 

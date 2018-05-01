@@ -14,14 +14,14 @@ class TimedQueue<T> {
     this.curr_time += time_ms;
   }
 
-  readyToPop = (): boolean => {
+  readyToDequeue = (): boolean => {
     return (this.queue.length > 0
             && this.curr_time >= this.default_interval);
   }
 
-  pop = (): T => {
+  dequeue = (): T => {
     this.curr_time = 0;
-    let rtn = this.queue.pop();
+    let rtn = this.queue.shift();
     if (!rtn) {
       throw new Error("Not ready to pop.");
     }

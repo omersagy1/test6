@@ -11,7 +11,8 @@ import {Event, Choice} from './event';
 // - choice[]
 // - recurring
 const EVENT_TEMPLATES = [
-  
+
+
   {
     id: 'fire-warning',
     trigger: t.fireIsLow,
@@ -63,7 +64,8 @@ const EVENT_TEMPLATES = [
   {
     id: 'fire-is-out',
     trigger: t.fireWentOut,
-    text: 'The fire is dead. Watch out.'
+    text: ['The fire is dead.',
+           'Watch out.']
   },
 
   {
