@@ -23,6 +23,7 @@ class State {
 
   constructor() {
     this.possible_events = getAllEvents();
+    console.log(this.possible_events);
     this.start_time_ms = 0;
 
     this.event_history = [];

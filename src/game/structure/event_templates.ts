@@ -62,14 +62,12 @@ const EVENT_TEMPLATES = [
   },
 
   {
-    id: 'fire-is-out',
     trigger: t.fireWentOut,
     text: ['The fire is dead.',
            'Watch out.']
   },
 
   {
-    id: 'fire-stoked',
     trigger: t.fireStoked,
     text: 'The fire is roaring.'
   }
@@ -98,7 +96,7 @@ const makeEvent = (template: EventTemplate): Event => {
     choices = template.choices.map(makeChoice);
   }
 
-  return new Event(template.id || 'dummy-id',
+  return new Event(template.id,
                    toArray(template.text),
                    template.trigger,
                    choices);

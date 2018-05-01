@@ -3,7 +3,7 @@ import {State} from './state';
 
 class Event {
 
-  constructor(public id: string,
+  constructor(public id?: string,
               public text: string[] = [],
               public trigger: (_:State) => boolean = (_) => false,
               public choices: Choice[] = [],
