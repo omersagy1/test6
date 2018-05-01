@@ -37,7 +37,8 @@ class Choice {
 
 }
 
-const EventIdGen = (() => {
+const EventIdGen: () => string
+ = (() => {
   let next_id = 0;
   return () => {
     next_id += 1;
