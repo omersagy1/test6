@@ -1,5 +1,6 @@
 import {State} from './state';
 
+
 class Event {
 
   constructor(public id: string,
@@ -7,6 +8,10 @@ class Event {
               public trigger: (_:State) => boolean = (_) => false,
               public choices: Choice[] = [],
               public effect: (_:State) => void = (_) => {}) {
+
+    if (!id) {
+      this.id = EventIdGen();
+    }
   }
 
   hasChoices = (): boolean => {
@@ -31,5 +36,13 @@ class Choice {
   }
 
 }
+
+const EventIdGen = (() => {
+  let next_id = 0;
+  return () => {
+    next_id += 1;
+    return String(next_id);
+  }
+})();
 
 export {Event, Choice};
