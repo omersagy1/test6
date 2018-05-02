@@ -33,6 +33,10 @@ class Harvester {
     return !this.cooldown.isActive();
   }
 
+  cooldownFractionLeft = (): number => {
+    return this.cooldown.fractionLeft();
+  }
+
   harvest = (): void => {
     if (!this.canHarvest()) {
       throw Error('Unable to harvest.');

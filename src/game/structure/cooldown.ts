@@ -17,7 +17,7 @@ class Cooldown {
     return this.time_left_ms > 0;
   }
 
-  timeLeftFraction = (): number => {
+  fractionLeft = (): number => {
     return this.time_left_ms / this.duration_ms;
   }
 
