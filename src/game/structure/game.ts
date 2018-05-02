@@ -1,7 +1,9 @@
 import {State} from './state';
 import {Action} from './action';
 
-const FRAME_LENGTH_MS = 1000 / 20;
+import * as config from './config';
+
+export const FRAME_LENGTH_MS = 1000 / config.FRAMES_PER_SECOND;
 
 class Game {
 
@@ -26,7 +28,8 @@ class Game {
     const start_time = new Date().getTime();
     this.state.start(start_time);
     this.last_time = start_time;
-    this.ticker_id = window.setInterval(this.loop, FRAME_LENGTH_MS);
+    this.ticker_id = window.setInterval(
+      this.loop, FRAME_LENGTH_MS);
   }
 
   // Should not be called directly. Call play() instead.

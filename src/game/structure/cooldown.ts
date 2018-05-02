@@ -1,8 +1,11 @@
 class Cooldown {
 
-  constructor(
-    public duration_ms: number,
-    public time_left_ms: number = 0) {
+  duration_ms: number;
+  time_left_ms: number;
+
+  constructor(duration_ms: number) {
+    this.duration_ms = duration_ms;
+    this.time_left_ms = 0;
   }
 
   begin = (): void => {
@@ -12,6 +15,10 @@ class Cooldown {
   // Whether the cooldown is running.
   isActive = (): boolean => {
     return this.time_left_ms > 0;
+  }
+
+  timeLeftFraction = (): number => {
+    return this.time_left_ms / this.duration_ms;
   }
 
   update = (elapsed_ms: number): void => {

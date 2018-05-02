@@ -1,11 +1,13 @@
 import {Fire} from './fire';
 import {Action, SelectChoice, ActionType} from './action';
+import {Cooldown} from './cooldown';
 
 import {Event} from './event';
 import {getAllEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
 
-const DISPLAY_MESSAGE_DELAY_MS = 1000;
+import * as config from './config';
+
 
 class State {
 
@@ -13,6 +15,7 @@ class State {
 
   action_history: Action[];
   actions_performed_current_cycle: Action[];
+  action_cooldowns: Map<ActionType, Cooldown>;
 
   possible_events: Event[];
   event_history: Event[];
@@ -32,9 +35,12 @@ class State {
 
     this.action_history = [];
     this.actions_performed_current_cycle = [];
+    this.action_cooldowns = new Map([
+      [ActionType.STOKE_FIRE, new Cooldown(5000)]
+    ]);
 
     this.display_message_queue = new TimedQueue(
-      DISPLAY_MESSAGE_DELAY_MS);
+      config.DISPLAY_MESSAGE_DELAY_MS);
     this.display_message_history = [];
 
     this.fire = new Fire();
