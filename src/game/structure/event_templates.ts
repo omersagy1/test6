@@ -101,7 +101,9 @@ const makeEvent = (template: EventTemplate): Event => {
   return new Event(template.id,
                    toArray(template.text),
                    template.trigger,
-                   choices);
+                   choices,
+                   template.effect,
+                   template.recurring);
 }
 
 const makeChoice = (template: ChoiceTemplate): Choice => {

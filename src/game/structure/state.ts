@@ -10,7 +10,9 @@ const DISPLAY_MESSAGE_DELAY_MS = 1000;
 class State {
 
   start_time_ms: number;
+
   action_history: Action[];
+  actions_performed_current_cycle: Action[];
 
   possible_events: Event[];
   event_history: Event[];
@@ -26,9 +28,10 @@ class State {
     this.start_time_ms = 0;
 
     this.event_history = [];
-    this.action_history = [];
-
     this.active_event = null;
+
+    this.action_history = [];
+    this.actions_performed_current_cycle = [];
 
     this.display_message_queue = new TimedQueue(
       DISPLAY_MESSAGE_DELAY_MS);
@@ -50,6 +53,7 @@ class State {
     this.fire.update(time_elapsed_ms);
     this.checkEventTriggers();
     this.processDisplayMessages(time_elapsed_ms);
+    this.clearActionsCurrentCycle();
   }
 
   processDisplayMessages = (time_elapsed_ms: number): void => {
@@ -66,7 +70,12 @@ class State {
     } else if (action.type === ActionType.SELECT_CHOICE) {
       this.makeChoice((action as SelectChoice).text);
     }
+    this.actions_performed_current_cycle.push(action);
     this.action_history.push(action);
+  }
+
+  clearActionsCurrentCycle = (): void => {
+    this.actions_performed_current_cycle = [];
   }
 
   checkEventTriggers = (): void => {
@@ -80,7 +89,7 @@ class State {
     // Assumes that events can only run once.
     this.possible_events = (
       this.possible_events.filter((e) => {
-        return !events_run.includes(e);
+        return e.recurring || !events_run.includes(e);
     }));
   }
 
@@ -117,7 +126,8 @@ class State {
   }
 
   actionPerformed = (action_type: ActionType): boolean => {
-    let types = this.action_history.map((a) => a.type);
+    let types = this.actions_performed_current_cycle.map(
+      (a) => a.type);
     return types.includes(action_type);
   }
 
