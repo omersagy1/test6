@@ -20,10 +20,13 @@ class TimedQueue<T> {
   }
 
   dequeue = (): T => {
+    if (!this.readyToDequeue()) {
+      throw new Error("Not ready to dequeue.");
+    }
     this.curr_time = 0;
     let rtn = this.queue.shift();
     if (!rtn) {
-      throw new Error("Not ready to pop.");
+      throw new Error("Dequeuing failed.");
     }
     return rtn;
   }

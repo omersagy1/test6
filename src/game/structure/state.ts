@@ -5,7 +5,7 @@ import {Event} from './event';
 import {getAllEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
 
-const DISPLAY_MESSAGE_DELAY_MS = 1000;
+const DISPLAY_MESSAGE_DELAY_MS = 4000;
 
 class State {
 

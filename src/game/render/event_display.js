@@ -15,6 +15,7 @@ const EventDisplay = ({messages}) => {
     }
     line_divs.push(
       <LineDisplay line={l}
+                   key={i}
                    opacity={opacity} />
     );
   }
