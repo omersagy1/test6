@@ -150,9 +150,11 @@ class State {
   }
 
   harvestResource = (name: string): void => {
-    let harvester: Harvester = this.harvesters.filter(
-      (h) => { h.resource.name === name }
-    )[0];
+    let harvesters = this.harvesters.filter(
+      (h) => h.resource.name === name
+    );
+
+    let harvester = harvesters[0];
 
     if (harvester.canHarvest()) {
       harvester.harvest();

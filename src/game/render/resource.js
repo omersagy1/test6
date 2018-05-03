@@ -11,7 +11,7 @@ const Resource = ({name,
       {name}: {amount}
       <Meter proportion={cooldown_fraction_remaining}
              as_button={true}
-             callback={harvest_callback(name)} />
+             callback={() => harvest_callback(name)} />
     </div>
   );
 };
