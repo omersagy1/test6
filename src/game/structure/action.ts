@@ -1,10 +1,13 @@
 import {Game} from './game';
 
-export type Action = GenericAction | SelectChoice;
+export type Action = GenericAction 
+                     | SelectChoice
+                     | HarvestResource;
 
 export enum ActionType {
     STOKE_FIRE,
-    SELECT_CHOICE
+    SELECT_CHOICE,
+    HARVEST_RESOURCE
 };
 
 export interface GenericAction {
@@ -13,6 +16,10 @@ export interface GenericAction {
 
 export interface SelectChoice extends GenericAction {
   text: string;
+};
+
+export interface HarvestResource extends GenericAction {
+  name: string;
 };
 
 export const stokeCallback = (game: Game) => () => {
@@ -27,4 +34,12 @@ export const selectChoiceCallback = (game: Game) => (choice_text: string) => {
     text: choice_text
   });
 };
+
+export const harvestResourceCallback = (game: Game) => (name: string) => {
+  game.queueInput({
+    type: ActionType.HARVEST_RESOURCE,
+    name: name
+  });
+};
+
 
