@@ -34,7 +34,7 @@ class Harvester {
     return !this.cooldown.isActive();
   }
 
-  cooldownFractionLeft = (): number => {
+  cooldownFractionRemaining = (): number => {
     return this.cooldown.fractionLeft();
   }
 
