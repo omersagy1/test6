@@ -17,7 +17,7 @@ const Meter = ({proportion}) => {
     background: BAR_COLOR
   }
   return (
-    <div style={outer_style}> 
+    <div style={outer_style} onClick={()=>{console.log('clicked')}}> 
       <div style={inner_style}></div>
     </div>
   );

@@ -11,7 +11,6 @@ import {ms, secs, mins, millis} from './time';
 
 import * as config from './config';
 
-
 class State {
 
   start_time: ms;
@@ -59,6 +58,7 @@ class State {
       new Harvester(this.resources[1], 100, millis(20 as secs)),
       new Harvester(this.resources[2], 1, millis(0, 2 as mins))
     ];
+    this.harvesters.map((h) => h.beginCooldown());
   }
 
   start = (start_time: ms): void => {
@@ -72,6 +72,7 @@ class State {
 
   update = (time_elapsed: ms): void => {
     this.fire.update(time_elapsed);
+    this.harvesters.map((h) => h.update(time_elapsed));
     this.checkEventTriggers();
     this.processDisplayMessages(time_elapsed);
     this.clearActionsCurrentCycle();

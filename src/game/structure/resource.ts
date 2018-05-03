@@ -26,6 +26,10 @@ class Harvester {
     this.cooldown = new Cooldown(cooldown_duration);
   }
 
+  beginCooldown = (): void => {
+    this.cooldown.begin();
+  }
+
   update = (time_elapsed: ms): void => {
     this.cooldown.update(time_elapsed);
   }
