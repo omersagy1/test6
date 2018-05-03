@@ -28,6 +28,10 @@ class Fire {
   dampen = (factor: number): void => {
     this.strength = this.strength * factor
   }
+
+  strengthProportion = (): number => {
+    return this.strength / MAX_FIRE_STRENGTH;
+  }
 }
 
 export {Fire};
