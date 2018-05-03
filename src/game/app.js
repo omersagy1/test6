@@ -47,7 +47,6 @@ class App extends React.Component {
           <div className="fire-display">
             <Firebar 
               fire_model={s.fire} />
-            <Meter proportion={s.fire.strengthProportion()} />
             <StokeButton 
               action_callback={action.stokeCallback(this.game)} />
           </div>

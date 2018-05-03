@@ -2,16 +2,25 @@ import React from 'react';
 
 const WIDTH = 300; // px
 const HEIGHT = 30; // px
-const COLOR = 'red';
+const BAR_COLOR = 'white';
+const BG_COLOR = 'gray';
 
 const Meter = ({proportion}) => {
-  const style = {
+  const outer_style = {
+    width: WIDTH,
+    height: HEIGHT,
+    background: BG_COLOR
+  }
+  const inner_style = {
     width: WIDTH * proportion,
     height: HEIGHT,
-    background: COLOR
+    background: BAR_COLOR
   }
-
-  return <div style={style}></div>
+  return (
+    <div style={outer_style}> 
+      <div style={inner_style}></div>
+    </div>
+  );
 }
 
 export {Meter};

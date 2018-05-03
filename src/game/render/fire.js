@@ -1,7 +1,12 @@
 import React from 'react';
 
+import {Meter} from './meter';
+
 const Firebar = ({fire_model}) => {
-  return <div> fire strength: {fire_model.strength} </div>;
+  return ([
+      <Meter proportion={fire_model.strengthProportion()} />,
+      <div> fire strength: {fire_model.strength} </div>
+    ]);
 }
 
 const StokeButton = ({action_callback}) => {
