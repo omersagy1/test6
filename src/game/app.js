@@ -6,7 +6,6 @@ import * as action from './structure/action';
 import {Firebar, StokeButton} from './render/fire';
 import {EventDisplay} from './render/event_display';
 import {ChoiceButtonRow} from './render/choice_buttons';
-import {Meter} from './render/meter';
 
 import './app.css';
 
@@ -45,8 +44,7 @@ class App extends React.Component {
 
         <div className="interactive-display">
           <div className="fire-display">
-            <Firebar 
-              fire_model={s.fire} />
+            <Firebar fire_model={s.fire} />
             <StokeButton 
               action_callback={action.stokeCallback(this.game)} />
           </div>

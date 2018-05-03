@@ -32,6 +32,10 @@ class Fire {
   strengthProportion = (): number => {
     return this.strength / MAX_FIRE_STRENGTH;
   }
+
+  isExtinguished = (): boolean => {
+    return this.strength <= 0;
+  }
 }
 
 export {Fire};

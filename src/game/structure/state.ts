@@ -152,6 +152,12 @@ class State {
     return types.includes(action_type);
   }
 
+  actionEverPerformed = (action_type: ActionType): boolean => {
+    let types = this.action_history.map(
+      (a) => a.type);
+    return types.includes(action_type);
+  }
+
   getMessageHistory = (): string[] => {
     return this.display_message_history.slice();
   }
