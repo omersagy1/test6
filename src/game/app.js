@@ -51,7 +51,9 @@ class App extends React.Component {
               action_callback={action.stokeCallback(this.game)} />
           </div>
 
-          <ResourceList harvesters={s.harvesters} />
+          <ResourceList 
+            harvesters={s.harvesters} 
+            harvest_callback={action.harvestResourceCallback(this.game)} />
           <ChoiceButtonRow 
             action_callback={action.selectChoiceCallback(this.game)}
             active_event={s.active_event} />

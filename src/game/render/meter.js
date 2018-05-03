@@ -5,7 +5,7 @@ const HEIGHT = 30; // px
 const BAR_COLOR = 'white';
 const BG_COLOR = 'gray';
 
-const Meter = ({proportion}) => {
+const Meter = ({proportion, callback}) => {
   const outer_style = {
     width: WIDTH,
     height: HEIGHT,
@@ -17,7 +17,7 @@ const Meter = ({proportion}) => {
     background: BAR_COLOR
   }
   return (
-    <div style={outer_style} onClick={()=>{console.log('clicked')}}> 
+    <div style={outer_style} onClick={callback}> 
       <div style={inner_style}></div>
     </div>
   );

@@ -41,5 +41,3 @@ export const harvestResourceCallback = (game: Game) => (name: string) => {
     name: name
   });
 };
-
-

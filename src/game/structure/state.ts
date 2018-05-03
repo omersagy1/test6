@@ -1,5 +1,5 @@
 import {Fire} from './fire';
-import {Action, SelectChoice, ActionType} from './action';
+import {Action, SelectChoice, HarvestResource, ActionType} from './action';
 import {Cooldown} from './cooldown';
 import {Resource, Harvester} from './resource';
 
@@ -55,7 +55,7 @@ class State {
     ];
     this.harvesters = [
       new Harvester(this.resources[0], 10, millis(30 as secs)),
-      new Harvester(this.resources[1], 100, millis(20 as secs)),
+      new Harvester(this.resources[1], 100, millis(5 as secs)),
       new Harvester(this.resources[2], 1, millis(0, 2 as mins))
     ];
     this.harvesters.map((h) => h.beginCooldown());
@@ -91,6 +91,8 @@ class State {
       this.fire.stoke();
     } else if (action.type === ActionType.SELECT_CHOICE) {
       this.makeChoice((action as SelectChoice).text);
+    } else if (action.type === ActionType.HARVEST_RESOURCE) {
+      this.harvestResource((action as HarvestResource).name);
     }
     this.actions_performed_current_cycle.push(action);
     this.action_history.push(action);
@@ -145,6 +147,16 @@ class State {
       }
     }
     this.active_event = null;
+  }
+
+  harvestResource = (name: string): void => {
+    let harvester: Harvester = this.harvesters.filter(
+      (h) => { h.resource.name === name }
+    )[0];
+
+    if (harvester.canHarvest()) {
+      harvester.harvest();
+    }
   }
 
   actionPerformed = (action_type: ActionType): boolean => {
