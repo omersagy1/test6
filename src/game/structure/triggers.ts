@@ -27,7 +27,8 @@ export const and = (trig1: Trigger, trig2: Trigger): Trigger => {
 export const fireStoked: Trigger = actionPerformed(ActionType.STOKE_FIRE);
 
 export const fireIsLow: Trigger = (state) => { 
-  return fireStoked(state) && state.fire.strength < 30;
+  return (actionEverPerformed(ActionType.STOKE_FIRE)(state) 
+          && state.fire.strength < 30);
 }
 
 export const oneMinutePassed: Trigger = timePassed(60 as secs);
@@ -36,4 +37,3 @@ export const fireWentOut: Trigger = (state) => {
   return (actionEverPerformed(ActionType.STOKE_FIRE)(state)
           && state.fire.isExtinguished());
 }
-
