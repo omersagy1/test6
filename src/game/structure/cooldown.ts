@@ -1,34 +1,36 @@
+import {ms} from './time';
+
 class Cooldown {
 
-  duration_ms: number;
-  time_left_ms: number;
+  duration: ms;
+  time_left: ms;
 
-  constructor(duration_ms: number) {
-    this.duration_ms = duration_ms;
-    this.time_left_ms = 0;
+  constructor(duration: ms) {
+    this.duration = duration;
+    this.time_left = 0;
   }
 
   begin = (): void => {
-    this.time_left_ms = this.duration_ms;
+    this.time_left = this.duration;
   }
 
   // Whether the cooldown is running.
   isActive = (): boolean => {
-    return this.time_left_ms > 0;
+    return this.time_left > 0;
   }
 
   fractionLeft = (): number => {
-    return this.time_left_ms / this.duration_ms;
+    return this.time_left / this.duration;
   }
 
-  update = (elapsed_ms: number): void => {
+  update = (elapsed: ms): void => {
     if (!this.isActive()) {
       return;
     }
 
-    this.time_left_ms -= elapsed_ms;
-    if (this.time_left_ms < 0) {
-      this.time_left_ms = 0;
+    this.time_left -= elapsed;
+    if (this.time_left < 0) {
+      this.time_left = 0;
     }
   }
 

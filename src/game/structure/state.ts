@@ -1,17 +1,20 @@
 import {Fire} from './fire';
 import {Action, SelectChoice, ActionType} from './action';
 import {Cooldown} from './cooldown';
+import {Resource, Harvester} from './resource';
 
 import {Event} from './event';
 import {getAllEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
+
+import {ms, secs, mins, millis} from './time';
 
 import * as config from './config';
 
 
 class State {
 
-  start_time_ms: number;
+  start_time: ms;
 
   action_history: Action[];
   actions_performed_current_cycle: Action[];
@@ -25,10 +28,12 @@ class State {
   display_message_history: string[];
 
   fire: Fire;
+  resources: Resource[];
+  harvesters: Harvester[];
 
   constructor() {
     this.possible_events = getAllEvents();
-    this.start_time_ms = 0;
+    this.start_time = 0;
 
     this.event_history = [];
     this.active_event = null;
@@ -44,26 +49,36 @@ class State {
     this.display_message_history = [];
 
     this.fire = new Fire();
+    this.resources = [
+      new Resource('Water'),
+      new Resource('Wood'),
+      new Resource('Gold')
+    ];
+    this.harvesters = [
+      new Harvester(this.resources[0], 10, millis(30 as secs)),
+      new Harvester(this.resources[1], 100, millis(20 as secs)),
+      new Harvester(this.resources[2], 1, millis(0, 2 as mins))
+    ];
   }
 
-  start = (start_time_ms: number): void => {
-    this.start_time_ms = start_time_ms;
+  start = (start_time: ms): void => {
+    this.start_time = start_time;
   }
 
   timeElapsedSeconds = (): number => {
-    let rtn = (new Date().getTime() - this.start_time_ms) / 1000;
+    let rtn = (new Date().getTime() - this.start_time) / 1000;
     return rtn;
   }
 
-  update = (time_elapsed_ms: number): void => {
-    this.fire.update(time_elapsed_ms);
+  update = (time_elapsed: ms): void => {
+    this.fire.update(time_elapsed);
     this.checkEventTriggers();
-    this.processDisplayMessages(time_elapsed_ms);
+    this.processDisplayMessages(time_elapsed);
     this.clearActionsCurrentCycle();
   }
 
-  processDisplayMessages = (time_elapsed_ms: number): void => {
-    this.display_message_queue.incrementTime(time_elapsed_ms);
+  processDisplayMessages = (time_elapsed: ms): void => {
+    this.display_message_queue.incrementTime(time_elapsed);
     if (this.display_message_queue.readyToDequeue()) {
       this.display_message_history.push(
         this.display_message_queue.dequeue());

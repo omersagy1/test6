@@ -1,4 +1,5 @@
 import {Cooldown} from './cooldown';
+import {ms} from './time';
 
 class Resource {
 
@@ -18,11 +19,11 @@ class Harvester {
   constructor(
     resource: Resource,
     harvest_size: number,
-    cooldown_duration_ms: number) {
+    cooldown_duration: Millis) {
 
     this.resource = resource;
     this.harvest_size = harvest_size;
-    this.cooldown = new Cooldown(cooldown_duration_ms);
+    this.cooldown = new Cooldown(cooldown_duration);
   }
 
   update = (time_elasped_ms: number): void => {
@@ -47,4 +48,4 @@ class Harvester {
 
 }
 
-export {Harvester};
+export {Resource, Harvester};
