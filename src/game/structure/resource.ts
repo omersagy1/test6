@@ -19,15 +19,15 @@ class Harvester {
   constructor(
     resource: Resource,
     harvest_size: number,
-    cooldown_duration: Millis) {
+    cooldown_duration: ms) {
 
     this.resource = resource;
     this.harvest_size = harvest_size;
     this.cooldown = new Cooldown(cooldown_duration);
   }
 
-  update = (time_elasped_ms: number): void => {
-    this.cooldown.update(time_elasped_ms);
+  update = (time_elapsed: ms): void => {
+    this.cooldown.update(time_elapsed);
   }
 
   canHarvest = (): boolean => {

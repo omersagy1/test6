@@ -2,6 +2,7 @@ import * as t from './triggers';
 import * as mutators from './mutators';
 import {State} from './state';
 import {Event, Choice} from './event';
+import {secs} from './time';
 
 
 // Events have:
@@ -21,7 +22,7 @@ const EVENT_TEMPLATES = [
 
   {
     id: 'man-enters',
-    trigger: t.secondsPassed(30),
+    trigger: t.timePassed(30 as secs),
     text: 'A man walks in.',
     choices: [
       {
@@ -42,7 +43,7 @@ const EVENT_TEMPLATES = [
 
   {
     id: 'dampen-choice',
-    trigger: t.secondsPassed(10),
+    trigger: t.timePassed(10),
     text: 'Dampen the fire?',
     choices: [
       { 

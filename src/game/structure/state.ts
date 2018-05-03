@@ -65,7 +65,7 @@ class State {
     this.start_time = start_time;
   }
 
-  timeElapsedSeconds = (): number => {
+  timeElapsed = (): secs => {
     let rtn = (new Date().getTime() - this.start_time) / 1000;
     return rtn;
   }
