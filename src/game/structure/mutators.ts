@@ -18,6 +18,6 @@ export const dampenResource = (name: string,
   state.getResource(name).amount *= factor;
 }
 
-export const setMilestone = (milestone: Milestone): Mutator => (state) => {
-  state.setMilestoneReached(milestone);
+export const setMilestone = (name: string): Mutator => (state) => {
+  state.setMilestoneReached(new Milestone(name));
 }

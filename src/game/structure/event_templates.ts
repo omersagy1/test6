@@ -1,9 +1,8 @@
 import * as t from './triggers';
-import * as m from './m';
+import * as m from './mutators';
 import {State} from './state';
 import {Event, Choice} from './event';
 import {secs} from './time';
-
 
 // Events have:
 // - id
@@ -50,7 +49,7 @@ const EVENT_TEMPLATES = [
                   'The fire is waning.'
                 ],
                 effect: m.and(m.dampenFire(.5),
-                              m.setMilestone('thief killed'))
+                              m.setMilestone('thief-killed'))
               }
             }]
         }

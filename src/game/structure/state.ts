@@ -62,6 +62,8 @@ class State {
       new Harvester(this.resources[2], 1, millis(0, 2 as mins))
     ];
     this.harvesters.map((h) => h.beginCooldown());
+
+    this.milestones = new Set();
   }
 
   start = (start_time: ms): void => {
