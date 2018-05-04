@@ -2,7 +2,7 @@ import {Fire} from './fire';
 import {Action, SelectChoice, HarvestResource, ActionType} from './action';
 import {Cooldown} from './cooldown';
 import {Resource, Harvester} from './resource';
-import {Milestone} from './milestone';
+import {MilestoneHistory} from './milestone';
 
 import {Event} from './event';
 import {getAllEvents} from './event_templates';
@@ -31,7 +31,7 @@ class State {
   resources: Resource[];
   harvesters: Harvester[];
 
-  milestones: Set<Milestone>;
+  milestone_history: MilestoneHistory;
 
   constructor() {
     this.possible_events = getAllEvents();
@@ -63,7 +63,7 @@ class State {
     ];
     this.harvesters.map((h) => h.beginCooldown());
 
-    this.milestones = new Set();
+    this.milestone_history = new MilestoneHistory();
   }
 
   start = (start_time: ms): void => {
@@ -191,10 +191,6 @@ class State {
       throw Error('Resource could not be found.');
     }
     return resource;
-  }
-
-  setMilestoneReached = (m: Milestone) => {
-    this.milestones.add(m);
   }
 
 }

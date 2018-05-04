@@ -1,5 +1,4 @@
 import {State} from './state';
-import {Milestone} from './milestone';
 
 export type Mutator = (_:State) => void;
 
@@ -19,5 +18,5 @@ export const dampenResource = (name: string,
 }
 
 export const setMilestone = (name: string): Mutator => (state) => {
-  state.setMilestoneReached(new Milestone(name));
+  state.milestone_history.setMilestoneReached(name);
 }
