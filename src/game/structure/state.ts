@@ -54,8 +54,8 @@ class State {
       new Resource('Gold')
     ];
     this.harvesters = [
-      new Harvester(this.resources[0], 10, millis(30 as secs)),
-      new Harvester(this.resources[1], 100, millis(5 as secs)),
+      new Harvester(this.resources[0], 10, millis(40 as secs)),
+      new Harvester(this.resources[1], 100, millis(30 as secs)),
       new Harvester(this.resources[2], 1, millis(0, 2 as mins))
     ];
     this.harvesters.map((h) => h.beginCooldown());
