@@ -1,17 +1,19 @@
+import {ms} from './time';
+
 class TimedQueue<T> {
 
   private default_interval: number;
   private queue: T[];
   private curr_time: number;
 
-  constructor(default_interval_ms: number) {
-    this.default_interval = default_interval_ms;
+  constructor(default_interval: ms) {
+    this.default_interval = default_interval;
     this.queue = [];
     this.curr_time = 0;
   }
 
-  incrementTime = (time_ms: number): void => {
-    this.curr_time += time_ms;
+  incrementTime = (time: ms): void => {
+    this.curr_time += time;
   }
 
   readyToDequeue = (): boolean => {
@@ -31,7 +33,7 @@ class TimedQueue<T> {
     return rtn;
   }
 
-  push = (...items: T[]): void => {
+  enqueue = (...items: T[]): void => {
     this.queue.push(...items);
   }
 

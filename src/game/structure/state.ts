@@ -118,7 +118,7 @@ class State {
   }
 
   runEvent = (event: Event): void => {
-    this.display_message_queue.push(...event.text)
+    this.display_message_queue.enqueue(...event.text)
 
     if (event.hasChoices()) {
       this.choiceRequired(event);
