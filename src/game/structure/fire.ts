@@ -13,20 +13,28 @@ class Fire {
     public strength: number = MIN_FIRE_STRENGTH,
     public cooldown = new Cooldown(STOKE_COOLDOWN * 1000 as ms)) {}
 
-  update = (time_elapsed_ms: number): void => {
+  update = (time_elapsed: ms): void => {
     let depletion = (
       MAX_FIRE_STRENGTH
       * config.FIRE_DEPLETION_FRAC_PER_SECOND
-      * (time_elapsed_ms / 1000));
+      * (time_elapsed / 1000));
 
     this.strength -= depletion;
     if (this.strength < 0) {
       this.strength = 0;
     }
+
+    this.cooldown.update(time_elapsed);
+  }
+
+  canStoke = (): boolean => {
+    return !this.cooldown.isActive();
   }
 
   stoke = (): void => {
-    this.strength = MAX_FIRE_STRENGTH;
+    if (!this.cooldown.isActive()) {
+      this.strength = MAX_FIRE_STRENGTH;
+    }
   }
 
   dampen = (factor: number): void => {
