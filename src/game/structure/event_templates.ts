@@ -38,7 +38,8 @@ const EVENT_TEMPLATES = [
               text: "Surrender Wood",
               consequence: {
                 text: "The man takes your wood and disappears."
-              }
+              },
+              effect: mutators.dampenResource('Wood', 100)
             },
 
             {

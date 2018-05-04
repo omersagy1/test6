@@ -7,3 +7,8 @@ export const dampenFire = (factor: number): Mutator => (state) => {
 }
 
 export const noOp: Mutator = (_:State) => {};
+
+export const dampenResource = (name: string,
+                               factor: number): Mutator => (state) => {
+  state.getResource(name).amount *= factor;
+}

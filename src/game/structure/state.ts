@@ -179,6 +179,15 @@ class State {
     return this.display_message_history.slice();
   }
 
+  getResource = (name: string): Resource => {
+    let resource = this.resources.find(
+      (r) => r.name === name);
+    if (!resource) {
+      throw Error('Resource could not be found.');
+    }
+    return resource;
+  }
+
 }
 
 export {State};
