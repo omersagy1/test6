@@ -1,5 +1,5 @@
 import * as t from './triggers';
-import * as mutators from './mutators';
+import * as m from './m';
 import {State} from './state';
 import {Event, Choice} from './event';
 import {secs} from './time';
@@ -32,21 +32,25 @@ const EVENT_TEMPLATES = [
             'You see the sallow face of a man.',
             '"Give me your wood or I will put out the fire."'
           ],
-          effect: mutators.noOp,
+          effect: m.noOp,
           choices: [
             {
               text: "Surrender Wood",
               consequence: {
                 text: "The man takes your wood and disappears."
               },
-              effect: mutators.dampenResource('Wood', 100)
+              effect: m.dampenResource('Wood', 100)
             },
 
             {
-              text: "Fight",
+              text: 'Fight',
               consequence: {
-                text: "You fight and win.",
-                effect: mutators.noOp
+                text: [
+                  'You fight and win.',
+                  'The fire is waning.'
+                ],
+                effect: m.and(m.dampenFire(.5),
+                              m.setMilestone('thief killed'))
               }
             }]
         }
@@ -58,7 +62,7 @@ const EVENT_TEMPLATES = [
             'Eventually, the knocking stops.',
             'You wonder if such peace can really exist.'
           ],
-          effect: mutators.noOp
+          effect: m.noOp
         }
       }]
   },
@@ -72,14 +76,14 @@ const EVENT_TEMPLATES = [
         text: 'Yes', 
         consequence: {
           text: 'fire dampened',
-          effect: mutators.dampenFire(.8)
+          effect: m.dampenFire(.8)
         }
       },
       {
         text: 'No',
         consequence: {
           text: 'nothing happened',
-          effect: mutators.noOp
+          effect: m.noOp
         }
       }]
   },
