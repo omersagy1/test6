@@ -12,7 +12,6 @@ import {secs} from './time';
 // - recurring
 const EVENT_TEMPLATES = [
 
-
   {
     id: 'fire-warning',
     trigger: t.fireIsLow,
