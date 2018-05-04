@@ -53,7 +53,10 @@ const EVENT_TEMPLATES = [
       {
         text: 'Ignore',
         consequence: {
-          text: 'He\'s dead. Be careful.',
+          text: [
+            'Eventually, the knocking stops.',
+            'You wonder if such peace can really exist.'
+          ],
           effect: mutators.noOp
         }
       }]

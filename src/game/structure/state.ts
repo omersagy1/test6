@@ -141,12 +141,14 @@ class State {
     if (!this.active_event) {
       return;
     }
-    for (let choice of this.active_event.choices) {
+    let choices = this.active_event.choices;
+    this.active_event = null;
+
+    for (let choice of choices) {
       if (choice.text === choice_text) {
         this.runEvent(choice.consequence);
       }
     }
-    this.active_event = null;
   }
 
   harvestResource = (name: string): void => {
