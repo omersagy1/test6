@@ -22,18 +22,36 @@ const EVENT_TEMPLATES = [
 
   {
     id: 'man-enters',
-    trigger: t.timePassed(30 as secs),
-    text: 'A man walks in.',
+    trigger: t.timePassed(10 as secs),
+    text: 'Someone is knocking on the door.',
     choices: [
       {
-        text: '"Who are you?"',
+        text: 'Answer',
         consequence: {
-          text: 'The man leaves silently.',
-          effect: mutators.noOp
+          text: [
+            'You see the sallow face of a man.',
+            '"Give me your wood or I will put out the fire."'
+          ],
+          effect: mutators.noOp,
+          choices: [
+            {
+              text: "Surrender Wood",
+              consequence: {
+                text: "The man takes your wood and disappears."
+              }
+            },
+
+            {
+              text: "Fight",
+              consequence: {
+                text: "You fight and win.",
+                effect: mutators.noOp
+              }
+            }]
         }
       },
       {
-        text: 'Kill him',
+        text: 'Ignore',
         consequence: {
           text: 'He\'s dead. Be careful.',
           effect: mutators.noOp
@@ -43,7 +61,7 @@ const EVENT_TEMPLATES = [
 
   {
     id: 'dampen-choice',
-    trigger: t.timePassed(10),
+    trigger: t.timePassed(30 as secs),
     text: 'Dampen the fire?',
     choices: [
       { 
@@ -94,30 +112,26 @@ interface ChoiceTemplate {
 
 
 const makeEvent = (template: EventTemplate): Event => {
-  let choices;
-  if (!!template.choices) {
-    choices = template.choices.map(makeChoice);
-  }
 
   return new Event(template.id,
                    toArray(template.text),
                    template.trigger,
-                   choices,
+                   makeChoices(template.choices),
                    template.effect,
                    template.recurring);
 }
 
-const makeChoice = (template: ChoiceTemplate): Choice => {
-  return new Choice(template.text, makeConsequence(template.consequence));
+const makeChoices = (templates?: ChoiceTemplate[]): Choice[] | undefined => {
+  let choices;
+  if (!!templates) {
+    choices = templates.map(makeChoice);
+  }
+  return choices;
 }
 
-const makeConsequence = (template: EventTemplate): Event => {
-  return new Event(
-    'dummy-id', 
-    toArray(template.text),
-    (_) => false,
-    [],
-    template.effect);
+
+const makeChoice = (template: ChoiceTemplate): Choice => {
+  return new Choice(template.text, makeEvent(template.consequence));
 }
 
 const toArray = <T>(x: T|T[]): T[] => {
