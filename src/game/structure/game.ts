@@ -53,7 +53,6 @@ class Game {
   }
 
   queueInput = (action: Action): void => {
-    console.log('QUEUEING INPUT');
     this.input_queue.push(action);
   }
 
