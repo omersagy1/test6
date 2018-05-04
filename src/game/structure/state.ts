@@ -93,7 +93,7 @@ class State {
 
   processAction = (action: Action): void => {
     if (action.type === ActionType.STOKE_FIRE) {
-      this.fire.stoke();
+      this.stokeFire();
     } else if (action.type === ActionType.SELECT_CHOICE) {
       this.makeChoice((action as SelectChoice).text);
     } else if (action.type === ActionType.HARVEST_RESOURCE) {
@@ -140,6 +140,12 @@ class State {
 
   isWaitingForChoice = (): boolean => {
     return !!this.active_event;
+  }
+
+  stokeFire = (): void => {
+    if (this.fire.canStoke()) {
+      this.fire.stoke();
+    }
   }
 
   makeChoice = (choice_text: string): void => {

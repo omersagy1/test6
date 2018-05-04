@@ -48,6 +48,7 @@ class App extends React.Component {
           <div className="fire-display">
             <Firebar fire_model={s.fire} />
             <StokeButton 
+              fire_model={s.fire}
               action_callback={action.stokeCallback(this.game)} />
           </div>
 

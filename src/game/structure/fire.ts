@@ -34,6 +34,7 @@ class Fire {
   stoke = (): void => {
     if (!this.cooldown.isActive()) {
       this.strength = MAX_FIRE_STRENGTH;
+      this.cooldown.begin();
     }
   }
 

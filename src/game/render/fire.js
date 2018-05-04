@@ -11,9 +11,10 @@ const Firebar = ({fire_model}) => {
   );
 }
 
-const StokeButton = ({action_callback}) => {
+const StokeButton = ({action_callback, fire_model}) => {
   return (
     <div>
+      <Meter proportion={fire_model.cooldown.fractionLeft()} />
       <button onClick={action_callback}>
         stoke fire
       </button>
