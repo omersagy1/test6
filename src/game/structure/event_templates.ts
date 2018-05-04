@@ -67,7 +67,7 @@ const EVENT_TEMPLATES = [
   },
 
   {
-    trigger: t.timeSinceMilestone('thief-killed', 5),
+    trigger: t.timeSinceMilestone('thief-killed', 5 as secs),
     text: 'The man has returned!'
   },
 

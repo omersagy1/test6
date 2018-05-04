@@ -1,7 +1,7 @@
 import {ms} from './time';
 
 class Payload {
-  constructor(time_added: ms) {}
+  constructor(public time_added: ms) {}
 }
 
 class MilestoneHistory {
@@ -10,7 +10,8 @@ class MilestoneHistory {
     public milestones: Map<string, Payload> = new Map()) {}
 
   setMilestoneReached = (name: string): void => {
-    this.milestones[name] = new Payload(new Date().getMilliseconds());
+    this.milestones.set(name, new Payload(new Date().getTime()));
+    console.log(this.milestones);
   }
 
   didReachMilestone = (name: string): boolean => {
@@ -19,9 +20,13 @@ class MilestoneHistory {
 
   timeSinceMilestone = (name: string): ms => {
     if (!this.didReachMilestone(name)) {
-      new Error('attempted to get time since unknown milestone.');
+      throw new Error('attempted to get time since unknown milestone.');
     }
-    return new Date().getMilliseconds() - this.milestones[name];
+    let payload = this.milestones.get(name);
+    if (!payload) {
+      throw new Error('milestone had no associated payload.');
+    }
+    return new Date().getTime() - payload.time_added;
   }
 
 }
