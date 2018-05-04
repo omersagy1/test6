@@ -20,6 +20,7 @@ const Resource = ({name,
 const ResourceList = ({harvesters, harvest_callback}) => {
   return harvesters.map((h) => (
     <Resource name={h.resource.name}
+              key={h.resource.name}
               amount={h.resource.amount} 
               cooldown_fraction_remaining={h.cooldownFractionRemaining()}
               harvest_callback={harvest_callback} />
