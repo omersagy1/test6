@@ -61,9 +61,14 @@ const EVENT_TEMPLATES = [
             'Eventually, the knocking stops.',
             'You wonder if such peace can really exist.'
           ],
-          effect: m.noOp
+          effect: m.setMilestone('thief-escapes')
         }
       }]
+  },
+
+  {
+    trigger: t.timeSinceMilestone('thief-killed', 5),
+    text: 'The man has returned!'
   },
 
   {

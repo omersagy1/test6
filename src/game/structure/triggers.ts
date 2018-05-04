@@ -22,6 +22,13 @@ export const and = (trig1: Trigger, trig2: Trigger): Trigger => {
   return (state: State) => { return trig1(state) && trig2(state); }
 };
 
+export const timeSinceMilestone = (name: string, s: secs) => {
+  return (state: State) => {
+    return (state.milestone_history.didReachMilestone(name)
+            && state.milestone_history.timeSinceMilestone(name) / 1000 > s);
+  };
+};
+
 // Triggers that accept a state.
 
 export const fireStoked: Trigger = actionPerformed(ActionType.STOKE_FIRE);
