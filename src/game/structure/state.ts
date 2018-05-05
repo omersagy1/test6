@@ -4,8 +4,8 @@ import {Cooldown} from './cooldown';
 import {Resource, Harvester} from './resource';
 import {MilestoneHistory} from './milestone';
 
-import {Event} from './event';
-import {getAllEvents} from './event_templates';
+import {StoryEvent} from './event';
+import {getAllStoryEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
 
 import {ms, secs, mins, millis} from './time';
@@ -20,9 +20,9 @@ class State {
   actions_performed_current_cycle: Action[];
   action_cooldowns: Map<ActionType, Cooldown>;
 
-  possible_events: Event[];
-  event_history: Event[];
-  active_event: Event | null;
+  possible_events: StoryEvent[];
+  event_history: StoryEvent[];
+  active_event: StoryEvent | null;
 
   display_message_queue: TimedQueue<string>;
   display_message_history: string[];
@@ -34,7 +34,7 @@ class State {
   milestone_history: MilestoneHistory;
 
   constructor() {
-    this.possible_events = getAllEvents();
+    this.possible_events = getAllStoryEvents();
     this.start_time = 0;
 
     this.event_history = [];
@@ -78,7 +78,7 @@ class State {
   update = (time_elapsed: ms): void => {
     this.fire.update(time_elapsed);
     this.harvesters.map((h) => h.update(time_elapsed));
-    this.checkEventTriggers();
+    this.checkStoryEventTriggers();
     this.processDisplayMessages(time_elapsed);
     this.clearActionsCurrentCycle();
   }
@@ -107,11 +107,11 @@ class State {
     this.actions_performed_current_cycle = [];
   }
 
-  checkEventTriggers = (): void => {
-    let events_run: Event[] = [];
+  checkStoryEventTriggers = (): void => {
+    let events_run: StoryEvent[] = [];
     for (let e of this.possible_events) {
       if (e.trigger(this)) {
-        this.runEvent(e);
+        this.runStoryEvent(e);
         events_run.push(e);
       }
     }
@@ -122,7 +122,7 @@ class State {
     }));
   }
 
-  runEvent = (event: Event): void => {
+  runStoryEvent = (event: StoryEvent): void => {
     this.display_message_queue.enqueue(...event.text)
 
     if (event.hasChoices()) {
@@ -134,7 +134,7 @@ class State {
     this.event_history.push(event);
   }
 
-  choiceRequired = (event: Event): void => {
+  choiceRequired = (event: StoryEvent): void => {
     this.active_event = event;
   }
 
@@ -157,7 +157,7 @@ class State {
 
     for (let choice of choices) {
       if (choice.text === choice_text) {
-        this.runEvent(choice.consequence);
+        this.runStoryEvent(choice.consequence);
       }
     }
   }

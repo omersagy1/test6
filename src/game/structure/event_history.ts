@@ -1,12 +1,12 @@
-import {Event} from './event';
+import {StoryEvent} from './event';
 
-class EventHistory {
+class StoryEventHistory {
 
   constructor(
     public entries: Entry[] = []) {
   }
 
-  addEntry(event: Event, timestamp: number) {
+  addEntry(event: StoryEvent, timestamp: number) {
     this.entries.push(
       new Entry(event, timestamp));
   }
@@ -16,10 +16,10 @@ class EventHistory {
 class Entry {
 
   constructor(
-    public event: Event,
+    public event: StoryEvent,
     public timestamp: number) {
   }
 
 }
 
-export {EventHistory};
+export {StoryEventHistory};

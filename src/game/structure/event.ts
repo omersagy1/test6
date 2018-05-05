@@ -1,7 +1,7 @@
 import {State} from './state';
 
 
-class Event {
+class StoryEvent {
 
   constructor(public id?: string,
               public text: string[] = [],
@@ -11,7 +11,7 @@ class Event {
               public recurring = false) {
 
     if (!id) {
-      this.id = EventIdGen();
+      this.id = StoryEventIdGen();
     }
   }
 
@@ -33,12 +33,12 @@ class Choice {
 
   constructor(
     public text: string, 
-    public consequence: Event) {
+    public consequence: StoryEvent) {
   }
 
 }
 
-const EventIdGen: () => string
+const StoryEventIdGen: () => string
  = (() => {
   let next_id = 0;
   return () => {
@@ -47,4 +47,4 @@ const EventIdGen: () => string
   }
 })();
 
-export {Event, Choice};
+export {StoryEvent, Choice};

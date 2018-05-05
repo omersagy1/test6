@@ -1,10 +1,10 @@
 import * as t from './triggers';
 import * as m from './mutators';
 import {State} from './state';
-import {Event, Choice} from './event';
+import {StoryEvent, Choice} from './event';
 import {secs} from './time';
 
-// Events have:
+// StoryEvents have:
 // - id
 // - text
 // - trigger
@@ -57,7 +57,7 @@ const EVENT_TEMPLATES = [
         text: 'Ignore',
         consequence: {
           text: [
-            'Eventually, the knocking stops.',
+            'StoryEventually, the knocking stops.',
             'You wonder if such peace can really exist.'
           ],
           effect: m.setMilestone('thief-escapes')
@@ -106,7 +106,7 @@ const EVENT_TEMPLATES = [
 ];
 
 
-interface EventTemplate {
+interface StoryEventTemplate {
   id?: string;
   trigger?: (_:State) => boolean;
   text: string[] | string;
@@ -118,13 +118,13 @@ interface EventTemplate {
 
 interface ChoiceTemplate {
   text: string;
-  consequence: EventTemplate;
+  consequence: StoryEventTemplate;
 }
 
 
-const makeEvent = (template: EventTemplate): Event => {
+const makeStoryEvent = (template: StoryEventTemplate): StoryEvent => {
 
-  return new Event(template.id,
+  return new StoryEvent(template.id,
                    toArray(template.text),
                    template.trigger,
                    makeChoices(template.choices),
@@ -142,7 +142,7 @@ const makeChoices = (templates?: ChoiceTemplate[]): Choice[] | undefined => {
 
 
 const makeChoice = (template: ChoiceTemplate): Choice => {
-  return new Choice(template.text, makeEvent(template.consequence));
+  return new Choice(template.text, makeStoryEvent(template.consequence));
 }
 
 const toArray = <T>(x: T|T[]): T[] => {
@@ -153,8 +153,8 @@ const toArray = <T>(x: T|T[]): T[] => {
   }
 }
 
-const getAllEvents = (): Event[] => {
-  return EVENT_TEMPLATES.map(makeEvent);
+const getAllStoryEvents = (): StoryEvent[] => {
+  return EVENT_TEMPLATES.map(makeStoryEvent);
 }
 
-export {getAllEvents};
+export {getAllStoryEvents};
