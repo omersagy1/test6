@@ -8,7 +8,7 @@ const Resource = ({name,
                    harvest_callback}) => {
   let label = name + ': ' + amount;
   return (
-    <div className="resource">
+    <div>
       <Meter proportion={cooldown_fraction_remaining}
              label={label}
              callback={() => harvest_callback(name)} />

@@ -2,11 +2,15 @@ import React from 'react';
 
 import {Meter} from './meter';
 
+const FIRE_COLOR = '#680000' // a dark red.
+
 const Firebar = ({fire_model}) => {
+  const label = 'fire strength: ' + fire_model.strength;
   return (
     <div>
-      <Meter proportion={fire_model.strengthProportion()} />
-      <div> fire strength: {fire_model.strength} </div>
+      <Meter proportion={fire_model.strengthProportion()}
+             label={label}
+             bar_color={FIRE_COLOR} />
     </div>
   );
 }

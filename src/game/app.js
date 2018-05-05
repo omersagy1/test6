@@ -60,7 +60,6 @@ class App extends React.Component {
             active_event={s.active_event} />
 
         </div>
-
       </div>
     )
   }
