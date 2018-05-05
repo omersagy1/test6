@@ -57,7 +57,7 @@ const EVENT_TEMPLATES = [
         text: 'Ignore',
         consequence: {
           text: [
-            'StoryEventually, the knocking stops.',
+            'Eventually, the knocking stops.',
             'You wonder if such peace can really exist.'
           ],
           effect: m.setMilestone('thief-escapes')
