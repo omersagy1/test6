@@ -1,6 +1,6 @@
 import React from 'react';
 
-const WIDTH = 300; // px
+const WIDTH = 200; // px
 const HEIGHT = 30; // px
 const BAR_COLOR = '#909090';
 const BG_COLOR = 'dimgray';

@@ -5,7 +5,7 @@ import {Meter} from './meter';
 const FIRE_COLOR = '#680000' // a dark red.
 
 const Firebar = ({fire_model}) => {
-  const label = 'fire strength: ' + fire_model.strength;
+  const label = 'fire strength: ' + fire_model.strength.toFixed(2);
   return (
     <div>
       <Meter proportion={fire_model.strengthProportion()}
@@ -18,10 +18,9 @@ const Firebar = ({fire_model}) => {
 const StokeButton = ({action_callback, fire_model}) => {
   return (
     <div>
-      <Meter proportion={fire_model.cooldown.fractionLeft()} />
-      <button onClick={action_callback}>
-        stoke fire
-      </button>
+      <Meter proportion={fire_model.cooldown.fractionLeft()} 
+             callback={action_callback}
+             label={'stoke fire'}/>
     </div>
   );
 }
