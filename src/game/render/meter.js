@@ -6,12 +6,19 @@ const BAR_COLOR = '#909090';
 const BG_COLOR = 'dimgray';
 const LABEL_COLOR = 'white';
 
+const BORDER_COLOR = 'yellow';
+const BORDER_WIDTH = '1px';
+
 const Meter = ({proportion, label, callback, bar_color}) => {
   const outer_style = {
     width: WIDTH,
     height: HEIGHT,
     background: BG_COLOR,
-    color: LABEL_COLOR
+    color: LABEL_COLOR,
+    borderColor: BORDER_COLOR,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    fontSize: 16
   }
   const inner_style = {
     width: WIDTH * proportion,

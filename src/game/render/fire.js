@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Meter} from './meter';
 
-const FIRE_COLOR = '#680000' // a dark red.
+const FIRE_COLOR = '#880000' // a dark red.
 
 const Firebar = ({fire_model}) => {
   const label = 'fire strength: ' + fire_model.strength.toFixed(2);
