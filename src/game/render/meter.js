@@ -8,7 +8,7 @@ const LABEL_COLOR = 'white';
 
 const ACTIVE_BORDER_COLOR = 'yellow';
 const INACTIVE_BORDER_COLOR = 'darkgray';
-const BORDER_WIDTH = '1px';
+const BORDER_WIDTH = '3px';
 
 const Meter = ({proportion, label, callback, bar_color}) => {
   let border_color;
@@ -24,9 +24,11 @@ const Meter = ({proportion, label, callback, bar_color}) => {
     background: BG_COLOR,
     color: LABEL_COLOR,
     borderColor: border_color,
-    borderWidth: '1px',
+    borderWidth: BORDER_WIDTH,
     borderStyle: 'solid',
-    fontSize: 16
+    fontSize: 16,
+    marginTop: 10,
+    marginBottom: 10
   }
   const inner_style = {
     width: WIDTH * proportion,
@@ -34,11 +36,19 @@ const Meter = ({proportion, label, callback, bar_color}) => {
     background: bar_color || BAR_COLOR
   }
   const label_style = {
-    position: 'absolute'
+    ...{},
+    ...{
+      width: WIDTH,
+      height: HEIGHT,
+      position: 'absolute',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
   }
   return (
-    <div className="meter" style={outer_style} onClick={callback}> 
-      <span style={label_style}>{label}</span>
+    <div style={outer_style} onClick={callback}> 
+      <div style={label_style}>{label}</div>
       <div style={inner_style}></div>
     </div>
   );
