@@ -29,16 +29,13 @@ const ChoiceButton = ({action_callback, text}) => {
     display: 'inline-block'
   };
   const label_style = {
-    ...{},
-    ...{
-      width: 92,
-      height: 30,
-      position: 'absolute',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    }
-  }
+    width: 92,
+    height: 30,
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
   const specific_callback = () => { action_callback(text) };
   return (
     <div style={style} onClick={specific_callback}>
