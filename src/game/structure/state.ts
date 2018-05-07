@@ -10,7 +10,7 @@ import {StoryEvent} from './event';
 import {getAllStoryEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
 
-import {ms, secs, mins, millis} from './time';
+import {ms, secs, millis} from './time';
 
 import * as config from './config';
 
@@ -54,17 +54,10 @@ class State {
     this.display_message_history = [];
 
     this.fire = new Fire();
-    this.resources = [
-      new Resource('Water'),
-      new Resource('Wood'),
-      new Resource('Gold')
-    ];
-    this.harvesters = [
-      new Harvester(this.resources[0], 10, millis(40 as secs)),
-      new Harvester(this.resources[1], 100, millis(30 as secs)),
-      new Harvester(this.resources[2], 1, millis(0, 2 as mins))
-    ];
-    this.harvesters.map((h) => h.beginCooldown());
+
+    this.resources = [];
+    this.harvesters = [];
+    this.addResource('wood', 10, millis(40 as secs));
 
     this.milestone_history = new MilestoneHistory();
     this.system_event_history = new SystemEventHistory();
@@ -167,6 +160,15 @@ class State {
         this.runStoryEvent(choice.consequence);
       }
     }
+  }
+
+  addResource(name: string, harvest_size: number, cooldown: ms) {
+    let r = new Resource(name);
+    let h = new Harvester(r, harvest_size, cooldown);
+    h.beginCooldown();
+
+    this.resources.push(r);
+    this.harvesters.push(h);
   }
 
   harvestResource = (name: string): void => {
