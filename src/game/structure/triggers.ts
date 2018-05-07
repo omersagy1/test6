@@ -8,7 +8,7 @@ export type Trigger = (_:State) => boolean;
 // Higher order triggers that produce other triggers.
 
 export const timePassed = (t: secs): Trigger => {
-  return ((state: State) => state.timeElapsed() > t);
+  return ((state: State) => state.clock.gameTimeElapsedSeconds() > t);
 };
 
 export const actionPerformed = (action: ActionType): Trigger => {

@@ -10,13 +10,14 @@ import {StoryEvent} from './event';
 import {getAllStoryEvents} from './event_templates';
 import {TimedQueue} from './timed_queue';
 
-import {ms, secs, millis} from './time';
+import {Clock, ms, secs, millis} from './time';
 
 import * as config from './config';
 
 class State {
 
-  start_time: ms;
+  clock: Clock;
+  paused: boolean;
 
   action_history: Action[];
   actions_performed_current_cycle: Action[];
@@ -37,9 +38,10 @@ class State {
   system_event_history: SystemEventHistory;
 
   constructor() {
-    this.possible_events = getAllStoryEvents();
-    this.start_time = 0;
+    this.clock = new Clock();
+    this.paused = false;
 
+    this.possible_events = getAllStoryEvents();
     this.event_history = [];
     this.active_event = null;
 
@@ -64,15 +66,22 @@ class State {
   }
 
   start = (start_time: ms): void => {
-    this.start_time = start_time;
+    this.clock.start(start_time);
   }
 
-  timeElapsed = (): secs => {
-    let rtn = (new Date().getTime() - this.start_time) / 1000;
-    return rtn;
+  pause = (): void => {
+    this.paused = true;
+  }
+
+  resume = (): void => {
+    this.paused = false;
   }
 
   update = (time_elapsed: ms): void => {
+    if (this.paused) {
+      return;
+    }
+    this.clock.update(time_elapsed);
     this.fire.update(time_elapsed);
     this.harvesters.map((h) => h.update(time_elapsed));
     this.checkStoryEventTriggers();
@@ -122,14 +131,11 @@ class State {
 
   runStoryEvent = (event: StoryEvent): void => {
     this.display_message_queue.enqueue(...event.text)
-
+    event.execute(this);
+    this.event_history.push(event);
     if (event.hasChoices()) {
       this.choiceRequired(event);
     }
-
-    event.execute(this);
-
-    this.event_history.push(event);
   }
 
   choiceRequired = (event: StoryEvent): void => {
