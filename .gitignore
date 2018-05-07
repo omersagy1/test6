@@ -3,6 +3,9 @@
 # data
 /src/game/data
 
+# docs
+/docs
+
 # dependencies
 /node_modules
 
