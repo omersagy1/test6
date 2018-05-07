@@ -33,7 +33,7 @@ const EVENT_TEMPLATES = [
           effect: m.noOp,
           choices: [
             {
-              text: "Surrender Wood",
+              text: "Surrender",
               consequence: {
                 text: "The man takes your wood and disappears."
               },
