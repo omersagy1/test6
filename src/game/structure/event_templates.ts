@@ -27,7 +27,6 @@ const EVENT_TEMPLATES = [
         text: 'Answer',
         consequence: {
           text: [
-            'You see the sallow face of a man.',
             '"Give me your wood or I will put out the fire."'
           ],
           effect: m.noOp,

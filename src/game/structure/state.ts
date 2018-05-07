@@ -153,6 +153,7 @@ class State {
     if (!this.active_event) {
       return;
     }
+
     let choices = this.active_event.choices;
     this.active_event = null;
 
