@@ -1,6 +1,7 @@
 import {ActionType} from './action';
 import {State} from './state';
 import {secs} from './time';
+import {SystemEventType} from './system_event';
 
 export type Trigger = (_:State) => boolean;
 
@@ -29,9 +30,17 @@ export const timeSinceMilestone = (name: string, s: secs) => {
   };
 };
 
+// This relies on the system event history being cleared every frame.
+export const systemEventDispatched = (t: SystemEventType) => {
+  return (state: State) => {
+    return state.system_event_history.hasEventType(t);
+  };
+};
+
 // Triggers that accept a state.
 
-export const fireStoked: Trigger = actionPerformed(ActionType.STOKE_FIRE);
+export const fireStoked: Trigger = systemEventDispatched(
+  SystemEventType.FIRE_STOKED);
 
 export const fireIsLow: Trigger = (state) => { 
   return (actionEverPerformed(ActionType.STOKE_FIRE)(state) 

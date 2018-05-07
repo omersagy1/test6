@@ -85,6 +85,7 @@ class State {
     this.checkStoryEventTriggers();
     this.processDisplayMessages(time_elapsed);
     this.clearActionsCurrentCycle();
+    this.system_event_history.clear();
   }
 
   processDisplayMessages = (time_elapsed: ms): void => {
@@ -98,8 +99,6 @@ class State {
   processAction = (action: Action): void => {
     if (action.type === ActionType.STOKE_FIRE) {
       this.stokeFire();
-      this.system_event_history.addEvent(
-        SystemEventType.FIRE_STOKED);
     } else if (action.type === ActionType.SELECT_CHOICE) {
       this.makeChoice((action as SelectChoice).text);
     } else if (action.type === ActionType.HARVEST_RESOURCE) {
@@ -151,6 +150,8 @@ class State {
   stokeFire = (): void => {
     if (this.fire.canStoke()) {
       this.fire.stoke();
+      this.system_event_history.addEvent(
+        SystemEventType.FIRE_STOKED);
     }
   }
 
@@ -177,6 +178,8 @@ class State {
 
     if (harvester.canHarvest()) {
       harvester.harvest();
+      this.system_event_history.addEvent(
+        SystemEventType.RESOURCE_HARVESTED);
     }
   }
 

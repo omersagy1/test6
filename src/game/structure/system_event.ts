@@ -1,6 +1,6 @@
 enum SystemEventType {
   FIRE_STOKED,
-  RESOURCE_GATHERED
+  RESOURCE_HARVESTED
 };
 
 class SystemEvent {
@@ -15,13 +15,16 @@ class SystemEventHistory {
     this.history = [];
   }
 
-  addEvent(e: SystemEventType) {
+  addEvent = (e: SystemEventType): void => {
     this.history.push(new SystemEvent(e));
   }
 
-  hasEventType(t: SystemEventType) {
-    return this.history.find(
-      (e) => e.type == t);
+  hasEventType = (t: SystemEventType): boolean => {
+    return !!(this.history.find((e) => e.type == t));
+  }
+
+  clear() {
+    this.history = [];
   }
 
 };
