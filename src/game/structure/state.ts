@@ -1,6 +1,5 @@
 import {Fire} from './fire';
 import {Action, SelectChoice, HarvestResource, ActionType} from './action';
-import {Cooldown} from './cooldown';
 import {Resource, Harvester} from './resource';
 
 import {MilestoneHistory} from './milestone';
@@ -21,7 +20,6 @@ class State {
 
   action_history: Action[];
   actions_performed_current_cycle: Action[];
-  action_cooldowns: Map<ActionType, Cooldown>;
 
   possible_events: StoryEvent[];
   event_history: StoryEvent[];
@@ -47,9 +45,6 @@ class State {
 
     this.action_history = [];
     this.actions_performed_current_cycle = [];
-    this.action_cooldowns = new Map([
-      [ActionType.STOKE_FIRE, new Cooldown(5000)]
-    ]);
 
     this.display_message_queue = new TimedQueue(
       config.DISPLAY_MESSAGE_DELAY_MS);
