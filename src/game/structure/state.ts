@@ -2,7 +2,9 @@ import {Fire} from './fire';
 import {Action, SelectChoice, HarvestResource, ActionType} from './action';
 import {Cooldown} from './cooldown';
 import {Resource, Harvester} from './resource';
+
 import {MilestoneHistory} from './milestone';
+import {SystemEventHistory, SystemEventType} from './system_event';
 
 import {StoryEvent} from './event';
 import {getAllStoryEvents} from './event_templates';
@@ -32,6 +34,7 @@ class State {
   harvesters: Harvester[];
 
   milestone_history: MilestoneHistory;
+  system_event_history: SystemEventHistory;
 
   constructor() {
     this.possible_events = getAllStoryEvents();
@@ -64,6 +67,7 @@ class State {
     this.harvesters.map((h) => h.beginCooldown());
 
     this.milestone_history = new MilestoneHistory();
+    this.system_event_history = new SystemEventHistory();
   }
 
   start = (start_time: ms): void => {
@@ -94,6 +98,8 @@ class State {
   processAction = (action: Action): void => {
     if (action.type === ActionType.STOKE_FIRE) {
       this.stokeFire();
+      this.system_event_history.addEvent(
+        SystemEventType.FIRE_STOKED);
     } else if (action.type === ActionType.SELECT_CHOICE) {
       this.makeChoice((action as SelectChoice).text);
     } else if (action.type === ActionType.HARVEST_RESOURCE) {
