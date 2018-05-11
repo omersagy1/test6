@@ -13,7 +13,7 @@ test('enqueue works', () => {
   t.enqueue(1);
 });
 
-test('dequeue only after increment.', () => {
+test('dequeue only after increment', () => {
   let t: TimedQueue<number> = new TimedQueue(INTERVAL);
   t.enqueue(1);
   expect(t.readyToDequeue()).toEqual(false);
@@ -22,7 +22,7 @@ test('dequeue only after increment.', () => {
   expect(t.readyToDequeue()).toEqual(true);
 });
 
-test('successfully dequeue multiple elements.', () => {
+test('successfully dequeue multiple elements', () => {
   let t: TimedQueue<number> = new TimedQueue(INTERVAL);
   t.enqueue(1);
   t.enqueue(2);
@@ -42,7 +42,7 @@ test('successfully dequeue multiple elements.', () => {
   expect(t.dequeue()).toEqual(3);
 });
 
-test('custom per-element delays.', () => {
+test('custom per-element delays', () => {
   let t: TimedQueue<number> = new TimedQueue(500);
   t.enqueue(1);
   t.enqueueCustomDelays({ value: 2, delay: 600 });
