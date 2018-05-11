@@ -42,3 +42,27 @@ test('successfully dequeue multiple elements.', () => {
   expect(t.dequeue()).toEqual(3);
 });
 
+test('custom per-element delays.', () => {
+  let t: TimedQueue<number> = new TimedQueue(500);
+  t.enqueue(1);
+  t.enqueueCustomDelays({ value: 2, delay: 600 });
+  t.enqueueCustomDelays({ value: 3, delay: 2000 });
+
+  expect(t.readyToDequeue()).toEqual(false);
+  t.incrementTime(500);
+  expect(t.readyToDequeue()).toEqual(true);
+  expect(t.dequeue()).toEqual(1);
+
+  expect(t.readyToDequeue()).toEqual(false);
+  t.incrementTime(500);
+  expect(t.readyToDequeue()).toEqual(false);
+  t.incrementTime(100);
+  expect(t.readyToDequeue()).toEqual(true);
+  expect(t.dequeue()).toEqual(2);
+
+  t.incrementTime(1950);
+  expect(t.readyToDequeue()).toEqual(false);
+  t.incrementTime(50);
+  expect(t.readyToDequeue()).toEqual(true);
+  expect(t.dequeue()).toEqual(3);
+});
