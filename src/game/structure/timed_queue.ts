@@ -2,12 +2,12 @@ import {ms} from './time';
 
 class TimedQueue<T> {
 
-  private default_interval: number;
-  private queue: T[];
+  private default_delay: number;
+  private queue: TimedNode<T>[];
   private curr_time: number;
 
-  constructor(default_interval: ms) {
-    this.default_interval = default_interval;
+  constructor(default_delay: ms) {
+    this.default_delay = default_delay;
     this.queue = [];
     this.curr_time = 0;
   }
@@ -18,7 +18,7 @@ class TimedQueue<T> {
 
   readyToDequeue = (): boolean => {
     return (this.queue.length > 0
-            && this.curr_time >= this.default_interval);
+            && this.curr_time >= this.queue[0].delay);
   }
 
   dequeue = (): T => {
@@ -30,13 +30,27 @@ class TimedQueue<T> {
     if (!rtn) {
       throw new Error("Dequeuing failed.");
     }
-    return rtn;
+    return rtn.value;
   }
 
   enqueue = (...items: T[]): void => {
-    this.queue.push(...items);
+    let nodes: TimedNode<T>[] = items.map(
+      (i) => { 
+        return { value: i, delay: this.default_delay }
+      }
+    )
+    this.queue.push(...nodes);
+  }
+
+  enqueueCustomDelays = (...nodes: TimedNode<T>[]): void => {
+    this.queue.push(...nodes)
   }
 
 }
+
+interface TimedNode<T> {
+  value: T;
+  delay: ms;
+};
 
 export {TimedQueue};

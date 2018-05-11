@@ -25,6 +25,7 @@ class State {
   event_history: StoryEvent[];
   active_event: StoryEvent | null;
 
+  display_command_queue: TimedQueue<DisplayCommand>;
   display_message_queue: TimedQueue<string>;
   display_message_history: string[];
 
@@ -47,6 +48,8 @@ class State {
     this.actions_performed_current_cycle = [];
 
     this.display_message_queue = new TimedQueue(
+      config.DISPLAY_MESSAGE_DELAY_MS);
+    this.display_command_queue = new TimedQueue(
       config.DISPLAY_MESSAGE_DELAY_MS);
     this.display_message_history = [];
 
